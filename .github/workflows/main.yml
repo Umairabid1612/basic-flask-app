@@ -15,11 +15,11 @@ jobs:
     - name: Configure SSH
       uses: webfactory/ssh-agent@v0.5.1
       with:
-        ssh-private-key: ${{ env.AWS_EC2_INSTANCE_SSH_KEY }}
+        ssh-private-key: ${{ secrets.AWS_EC2_INSTANCE_SSH_KEY }}
 
     - name: Deploy Flask App
       run: |
-        ssh -o StrictHostKeyChecking=no ${{ env.AWS_EC2_INSTANCE_USER_NAME }}@${{ env.AWS_EC2_INSTANCE_PUBLIC_DNS }} "rm -rf /home/ec2-user/flask-app"
-        ssh -o StrictHostKeyChecking=no ${{ env.AWS_EC2_INSTANCE_USER_NAME }}@${{ env.AWS_EC2_INSTANCE_PUBLIC_DNS }} "git clone https://gitlab.com/umairabid1612/basic-flask-app.git /home/ec2-user/flask-app"
-        ssh -o StrictHostKeyChecking=no ${{ env.AWS_EC2_INSTANCE_USER_NAME }}@${{ env.AWS_EC2_INSTANCE_PUBLIC_DNS }} "cd /home/ec2-user/flask-app && pip install -r requirements.txt"
-        ssh -o StrictHostKeyChecking=no ${{ env.AWS_EC2_INSTANCE_USER_NAME }}@${{ env.AWS_EC2_INSTANCE_PUBLIC_DNS }} "cd /home/ec2-user/flask-app && gunicorn routes:app --bind 0.0.0.0:8080 --daemon"
+        ssh -o StrictHostKeyChecking=no ${{ secrets.AWS_EC2_INSTANCE_USER_NAME }}@${{ secrets.AWS_EC2_INSTANCE_PUBLIC_DNS }} "rm -rf /home/ec2-user/flask-app"
+        ssh -o StrictHostKeyChecking=no ${{ secrets.AWS_EC2_INSTANCE_USER_NAME }}@${{ secrets.AWS_EC2_INSTANCE_PUBLIC_DNS }} "git clone https://gitlab.com/umairabid1612/basic-flask-app.git /home/ec2-user/flask-app"
+        ssh -o StrictHostKeyChecking=no ${{ secrets.AWS_EC2_INSTANCE_USER_NAME }}@${{ secrets.AWS_EC2_INSTANCE_PUBLIC_DNS }} "cd /home/ec2-user/flask-app && pip install -r requirements.txt"
+        ssh -o StrictHostKeyChecking=no ${{ secrets.AWS_EC2_INSTANCE_USER_NAME }}@${{ secrets.AWS_EC2_INSTANCE_PUBLIC_DNS }} "cd /home/ec2-user/flask-app && gunicorn routes:app --bind 0.0.0.0:8080 --daemon"
